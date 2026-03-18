@@ -15,7 +15,7 @@ jobs:
     - name: repo-sync
       uses: repo-sync/github-sync@v2
       with:
-        source_repo: "nightscout/AndroidAPS"
+        source_repo: "nightscout/Trio"
         source_branch: "*"
         destination_branch: "*"
         sync_tags: "true"
