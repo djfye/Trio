@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v6
       with:
         persist-credentials: false
+        token: ${{ secrets.GH_PAT }}
     - name: repo-sync
       uses: repo-sync/github-sync@v2
       with:
