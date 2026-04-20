@@ -2,7 +2,8 @@ name: 5. Repo Sync
 
 on:
   schedule:
-  - cron:  "0 4 * * *"
+  - cron:  "0 0 * * *"
+    timezone: "America/Chicago"
   workflow_dispatch:
 
 jobs:
