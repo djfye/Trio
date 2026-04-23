@@ -2,22 +2,27 @@ name: 5. Repo Sync
 
 on:
   schedule:
-  - cron:  "0 5 * * *"
+    - cron:  "0 3 * * *"
   workflow_dispatch:
 
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-      with:
-        persist-credentials: false
-        token: ${{ secrets.GH_PAT }}
-    - name: repo-sync
-      uses: repo-sync/github-sync@v2
-      with:
-        source_repo: "nightscout/Trio"
-        source_branch: "*"
-        destination_branch: "*"
-        sync_tags: "true"
-        github_token: ${{ secrets.GH_PAT }}
+      - name: Sync Main Branch
+        uses: tgymnich/fork-sync@v2
+        with:
+          base: main
+          head: main
+          pr_title: "Merge"
+          merge_method: "merge"
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Sync Dev Branch
+        uses: tgymnich/fork-sync@v2
+        with:
+          base: dev
+          head: dev
+          pr_title: "Merge"
+          merge_method: "merge"
+          token: ${{ secrets.GH_PAT }}
