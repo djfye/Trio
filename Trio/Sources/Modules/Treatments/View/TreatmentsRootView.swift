@@ -170,11 +170,11 @@ extension Treatments {
 
             switch current {
             case .fat:
-                return .bolus
+                return .protein
             case .protein:
-                return .fat
+                return .bolus
             case .carbs:
-                return showFPU ? .protein : .bolus
+                return showFPU ? .fat : .bolus
             case .bolus:
                 return .carbs
             }
@@ -192,13 +192,13 @@ extension Treatments {
 
             switch current {
             case .fat:
-                return .protein
-            case .protein:
                 return .carbs
+            case .protein:
+                return .fat
             case .carbs:
                 return .bolus
             case .bolus:
-                return showFPU ? .fat : .carbs
+                return showFPU ? .protein : .carbs
             }
         }
 
@@ -526,20 +526,20 @@ extension Treatments {
                     .listRowBackground(treatmentButtonBackground)
                     .shadow(radius: 3)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .confirmationDialog(
-                        bolusWarning.warningMessage + " Bolus \(state.amount.description) U?",
+                    .glassActionSheet(
+                        Text(bolusWarning.warningMessage + " Bolus \(state.amount.description) U?"),
                         isPresented: $showConfirmDialogForBolusing,
-                        titleVisibility: .visible
-                    ) {
-                        Button("Cancel", role: .cancel) {}
-                        Button(
-                            bolusWarning.warningMessage
-                                .isEmpty ? String(localized: "Enact Bolus") : String(localized: "Ignore Warning and Enact Bolus"),
-                            role: bolusWarning.warningMessage.isEmpty ? nil : .destructive
-                        ) {
-                            state.invokeTreatmentsTask()
-                        }
-                    }
+                        actions: [
+                            GlassSheetAction(
+                                verbatim: bolusWarning.warningMessage
+                                    .isEmpty ? String(localized: "Enact Bolus") :
+                                    String(localized: "Ignore Warning and Enact Bolus"),
+                                role: bolusWarning.warningMessage.isEmpty ? nil : .destructive
+                            ) {
+                                state.invokeTreatmentsTask()
+                            }
+                        ]
+                    )
                 }
             } header: {
                 if !bolusWarning.warningMessage.isEmpty {
