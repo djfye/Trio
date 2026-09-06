@@ -250,7 +250,10 @@ struct QuickPickTreatmentsView: View {
         case (nil, .failed):
             if let bolusFailureMessage = outcome.bolusFailureMessage {
                 enactAlert = EnactAlert(
-                    title: String(localized: "Bolus Not Enacted", comment: "Alert title when a bolus-only quick pick fails at the pump"),
+                    title: String(
+                        localized: "Bolus Not Enacted",
+                        comment: "Alert title when a bolus-only quick pick fails at the pump"
+                    ),
                     message: bolusFailureMessage,
                     dismissesSheet: false
                 )
